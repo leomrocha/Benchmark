@@ -37,12 +37,13 @@ jobs:
         ${GITHUB_WORKSPACE}/sl analyze --strict --wait \
           --app Benchmark \
           --tag branch=${{ github.head_ref }} \
-          --java target/benchmark.war --analysis-timeout=1h0m0s
+          --java
+          --analysis-timeout=1h0m0s \  target/benchmark.war
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-        SHIFTLEFT_API_HOST: www.shiftleft.io
-        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.shiftleft.io:443
-        SHIFTLEFT_GRPC_API_HOST: api.shiftleft.io:443
+        SHIFTLEFT_API_HOST: www-ext.stg.shiftleft.io
+        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.stg.shiftleft.io:443
+        SHIFTLEFT_GRPC_API_HOST: api-ext.stg.shiftleft.io:443
 
   Build-Rules:
     runs-on: ubuntu-latest
@@ -63,9 +64,9 @@ jobs:
             --timeout=1h0m0s
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-        SHIFTLEFT_API_HOST: www.shiftleft.io
-        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.shiftleft.io:443
-        SHIFTLEFT_GRPC_API_HOST: api.shiftleft.io:443
+        SHIFTLEFT_API_HOST: www-ext.stg.shiftleft.io
+        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.stg.shiftleft.io:443
+        SHIFTLEFT_GRPC_API_HOST: api-ext.stg.shiftleft.io:443
 
   OWASP-Benchmark-Score:
     runs-on: ubuntu-latest
@@ -87,9 +88,9 @@ jobs:
         python3 export.py --app Benchmark -f sl -o ${GITHUB_WORKSPACE}/ngsast_results/Benchmark.sl
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-        SHIFTLEFT_API_HOST: www.shiftleft.io
-        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.shiftleft.io:443
-        SHIFTLEFT_GRPC_API_HOST: api.shiftleft.io:443
+        SHIFTLEFT_API_HOST: www-ext.stg.shiftleft.io
+        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.stg.shiftleft.io:443
+        SHIFTLEFT_GRPC_API_HOST: api-ext.stg.shiftleft.io:443
 
     - name: Package with maven
       run: mvn compile package
@@ -129,11 +130,11 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         OWASP_BENCHMARK_CHECKSUM: ${{ env.OWASP_BENCHMARK_CHECKSUM }}
-        SHIFTLEFT_USER_ID_V2: 090e2288-b4cd-456a-8322-d3957f3c2553
+        SHIFTLEFT_USER_ID_V2: fa977e92-d565-4827-8547-f3df2248d280
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-        SHIFTLEFT_API_HOST: www.shiftleft.io
-        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.shiftleft.io:443
-        SHIFTLEFT_GRPC_API_HOST: api.shiftleft.io:443
+        SHIFTLEFT_API_HOST: www-ext.stg.shiftleft.io
+        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.stg.shiftleft.io:443
+        SHIFTLEFT_GRPC_API_HOST: api-ext.stg.shiftleft.io:443
 
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
